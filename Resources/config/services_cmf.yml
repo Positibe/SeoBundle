@@ -1,0 +1,15 @@
+services:
+    positibe_seo.twig_extention:
+        class: Positibe\Bundle\SeoBundle\Twig\Extension\SeoExtension
+        arguments: [@sonata.seo.page]
+        public: false
+        tags:
+            - { name: twig.extension }
+        calls:
+            - [ setSeoPresentation, [@cmf_seo.presentation]]
+
+    positibe_seo.loader:
+        class: Positibe\Bundle\SeoBundle\Controller\SeoLoader
+        arguments: [@sonata.seo.page]
+        calls:
+            - [ setSeoPresentation, [@cmf_seo.presentation]]

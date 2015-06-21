@@ -1,0 +1,7 @@
+services:
+    positibe_seo.twig_extention:
+        class: Positibe\Bundle\SeoBundle\Twig\Extension\Paginator\PagerfantaExtension
+        arguments: [@service_container]
+        public: false
+        tags:
+            - { name: twig.extension }
