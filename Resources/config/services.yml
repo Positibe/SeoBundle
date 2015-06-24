@@ -1,5 +1,5 @@
 services:
-    positibe_seo.twig_extention:
+    positibe_seo.twig_extension:
         class: Positibe\Bundle\SeoBundle\Twig\Extension\SeoExtension
         arguments: [@positibe_seo.loader]
         public: false
