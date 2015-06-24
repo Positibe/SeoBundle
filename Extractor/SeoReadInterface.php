@@ -10,22 +10,38 @@
 
 namespace Positibe\Bundle\SeoBundle\Extractor;
 
-use Symfony\Cmf\Bundle\SeoBundle\Extractor\DescriptionReadInterface;
-use Symfony\Cmf\Bundle\SeoBundle\Extractor\KeywordsReadInterface;
-use Symfony\Cmf\Bundle\SeoBundle\Extractor\OriginalUrlReadInterface;
-use Symfony\Cmf\Bundle\SeoBundle\Extractor\TitleReadInterface;
-
 /**
  * Interface SeoReadInterface
  * @package Positibe\Bundle\SeoBundle\Extractor
  *
  * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-interface SeoReadInterface extends
-    TitleReadInterface,
-    DescriptionReadInterface,
-    OriginalUrlReadInterface,
-    KeywordsReadInterface
-{
+interface SeoReadInterface {
+    /**
+     * Provide a description of this page to be used in SEO context.
+     *
+     * @return string
+     */
+    public function getSeoDescription();
 
+    /**
+     * Provides a list of keywords for this page to be used in SEO context.
+     *
+     * @return string|array
+     */
+    public function getSeoKeywords();
+
+    /**
+     * The method returns the absolute URL as a string to redirect to or set to the canonical link.
+     *
+     * @return string An absolute URL.
+     */
+    public function getSeoOriginalUrl();
+
+    /**
+     * Provides a title of this page to be used in SEO context.
+     *
+     * @return string
+     */
+    public function getSeoTitle();
 } 

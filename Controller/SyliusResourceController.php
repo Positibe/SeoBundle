@@ -12,7 +12,6 @@ namespace Positibe\Bundle\SeoBundle\Controller;
 
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class SyliusResourceController
@@ -30,12 +29,4 @@ class SyliusResourceController extends ResourceController
 
         return $resource;
     }
-
-    public function indexAction(Request $request)
-    {
-        $this->get('positibe_seo.loader')->load($request);
-        return parent::indexAction($request);
-    }
-
-
 }

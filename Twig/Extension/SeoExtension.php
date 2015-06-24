@@ -3,10 +3,9 @@
 
 namespace Positibe\Bundle\SeoBundle\Twig\Extension;
 
-use Sonata\SeoBundle\Seo\SeoPageInterface;
 use Sonata\SeoBundle\Twig\Extension\SeoExtension as SonataSeoExtension;
-use Symfony\Cmf\Bundle\SeoBundle\SeoPresentationInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Positibe\Bundle\SeoBundle\Loader\SeoLoader;
+use Positibe\Bundle\SeoBundle\Extractor\SeoReadInterface;
 
 /**
  * Class SeoExtension
@@ -16,26 +15,12 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class SeoExtension extends SonataSeoExtension
 {
-    private $seoPage;
-    private $seoPresentation;
-    private $routeRepository;
+    protected $seoLoader;
 
-    public function __construct(SeoPageInterface $seoPage)
-    {
-        $this->seoPage = $seoPage;
-    }
 
-    public function setSeoPresentation(SeoPresentationInterface $seoPresentation)
+    public function __construct(SeoLoader $seoLoader)
     {
-        $this->seoPresentation = $seoPresentation;
-    }
-
-    /**
-     * @param mixed $routeRepository
-     */
-    public function setRouteRepository($routeRepository)
-    {
-        $this->routeRepository = $routeRepository;
+        $this->seoLoader = $seoLoader;
     }
 
     /**
@@ -65,30 +50,18 @@ class SeoExtension extends SonataSeoExtension
                 'positibe_seo_set_keywords',
                 array($this, 'setKeywords'),
                 array('is_safe' => array('html'))
-            ),
-            new \Twig_SimpleFunction(
-                'positibe_seo_paginate',
-                array($this, 'paginate'),
-                array('is_safe' => array('html'))
-            ),
+            )
         );
-
-        if ($this->seoPresentation !== null) {
-            $functions[] = new \Twig_SimpleFunction(
-                'positibe_seo_update', array($this, 'updateSeo'),
-                array('is_safe' => array('html'))
-            );
-        }
 
         return $functions;
     }
 
-
-    public function updateSeo($content)
+    /**
+     * @param SeoReadInterface $content
+     */
+    public function updateSeo(SeoReadInterface $content)
     {
-        if ($this->seoPresentation !== null) {
-            $this->seoPresentation->updateSeoPage($content);
-        }
+        $this->seoLoader->loadSeo($content);
     }
 
     /**
@@ -96,7 +69,7 @@ class SeoExtension extends SonataSeoExtension
      */
     public function addTitle($title)
     {
-        $this->seoPage->addTitle($title);
+        $this->seoLoader->addTitle($title);
     }
 
     /**
@@ -104,7 +77,7 @@ class SeoExtension extends SonataSeoExtension
      */
     public function setTitle($title)
     {
-        $this->seoPage->setTitle($title);
+        $this->seoLoader->setTitle($title);
     }
 
     /**
@@ -113,7 +86,7 @@ class SeoExtension extends SonataSeoExtension
      */
     public function setDescription($description, array $extras = array())
     {
-        $this->seoPage->addMeta('name', 'description', $description, $extras);
+        $this->seoLoader->setDescription($description, $extras);
     }
 
     /**
@@ -122,7 +95,7 @@ class SeoExtension extends SonataSeoExtension
      */
     public function setKeywords($description, array $extras = array())
     {
-        $this->seoPage->addMeta('name', 'keywords', $description, $extras);
+        $this->seoLoader->setKeywords($description, $extras);
     }
 
     /**

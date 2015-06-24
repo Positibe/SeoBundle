@@ -6,7 +6,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -25,19 +24,6 @@ class PositibeSeoExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
-        $bundles = $container->getParameter('kernel.bundles');
-
-        if ($bundles['CmfSeoBundle']) {
-            $loader->load('services_cmf.yml');
-        } else {
-            $loader->load('services.yml');
-        }
-
-        if($bundles['WhiteOctoberPagerfantaBundle'])
-        {
-            $loader->load('pagerfanta.yml');
-        }
-
-        $container->setParameter('cmf_routing.route_entity.class', 'Positibe\Bundle\SeoBundle\Entity\SeoRoute');
+        $loader->load('services.yml');
     }
 }
