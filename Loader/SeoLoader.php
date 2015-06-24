@@ -25,7 +25,7 @@ class SeoLoader
     /**
      * @var SeoPageInterface
      */
-    private $seoPage;
+    protected $seoPage;
 
     public function __construct(SeoPageInterface $seoPage)
     {
